@@ -23,6 +23,8 @@
 
 package com.iluwatar.api.gateway;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,35 +32,51 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
+
 /**
- * An adapter to communicate with the Price microservice
+ * An adapter to communicate with the Price microservice.
  */
 @Component
 public class PriceClientImpl implements PriceClient {
+  private static final Logger LOGGER = getLogger(PriceClientImpl.class);
+
   /**
-   * Makes a simple HTTP Get request to the Price microservice
-   * 
+   * Makes a simple HTTP Get request to the Price microservice.
+   *
    * @return The price of the product
    */
   @Override
   public String getPrice() {
-
-    String response = null;
-
-    HttpClient httpClient = HttpClient.newHttpClient();
-    HttpRequest httpGet = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:50006/price")).build();
+    var httpClient = HttpClient.newHttpClient();
+    var httpGet = HttpRequest.newBuilder()
+        .GET()
+        .uri(URI.create("http://localhost:50006/price"))
+        .build();
 
     try {
-      HttpResponse<String> httpResponse = httpClient.send(httpGet, BodyHandlers.ofString());
-      response = httpResponse.body();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOGGER.info("Sending request to fetch price info");
+      var httpResponse = httpClient.send(httpGet, BodyHandlers.ofString());
+      logResponse(httpResponse);
+      return httpResponse.body();
+    } catch (IOException | InterruptedException e) {
+      LOGGER.error("Failure occurred while getting price info", e);
     }
 
-    return response;
+    return null;
+  }
+
+  private void logResponse(HttpResponse<String> httpResponse) {
+    if (isSuccessResponse(httpResponse.statusCode())) {
+      LOGGER.info("Price info received successfully");
+    } else {
+      LOGGER.warn("Price info request failed");
+    }
+  }
+
+  private boolean isSuccessResponse(int responseCode) {
+    return responseCode >= 200 && responseCode <= 299;
   }
 }

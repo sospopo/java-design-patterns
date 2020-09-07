@@ -27,10 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
- *  ServiceExecuotr class.
- *  This class will pick up Messages one by one from 
- *  the Blocking Queue and process them.
+ * ServiceExecuotr class. This class will pick up Messages one by one from the Blocking Queue and
+ * process them.
  */
 public class ServiceExecutor implements Runnable {
 
@@ -48,7 +46,7 @@ public class ServiceExecutor implements Runnable {
   public void run() {
     try {
       while (!Thread.currentThread().isInterrupted()) {
-        Message msg = msgQueue.retrieveMsg();
+        var msg = msgQueue.retrieveMsg();
 
         if (null != msg) {
           LOGGER.info(msg.toString() + " is served.");

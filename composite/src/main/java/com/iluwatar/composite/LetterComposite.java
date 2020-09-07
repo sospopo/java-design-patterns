@@ -27,13 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * Composite interface.
- * 
  */
 public abstract class LetterComposite {
 
-  private List<LetterComposite> children = new ArrayList<>();
+  private final List<LetterComposite> children = new ArrayList<>();
 
   public void add(LetterComposite letter) {
     children.add(letter);
@@ -43,18 +41,18 @@ public abstract class LetterComposite {
     return children.size();
   }
 
-  protected void printThisBefore() {}
+  protected void printThisBefore() {
+  }
 
-  protected void printThisAfter() {}
+  protected void printThisAfter() {
+  }
 
   /**
-   * Print
+   * Print.
    */
   public void print() {
     printThisBefore();
-    for (LetterComposite letter : children) {
-      letter.print();
-    }
+    children.forEach(LetterComposite::print);
     printThisAfter();
   }
 }

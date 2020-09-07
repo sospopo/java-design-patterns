@@ -32,15 +32,16 @@ import org.slf4j.LoggerFactory;
 /**
  * Impelemetation with bully algorithm. Each instance should have a sequential id and is able to
  * communicate with other instances in the system. Initially the instance with smallest (or largest)
- * ID is selected to be the leader. All the other instances send heartbeat message to leader periodically
- * to check its health. If one certain instance finds the server done, it will send an election message
- * to all the instances of which the ID is larger. If the target instance is alive, it will return an
- * alive message (in this sample return true) and then send election message with its ID. If not,
- * the original instance will send leader message to all the other instances.
+ * ID is selected to be the leader. All the other instances send heartbeat message to leader
+ * periodically to check its health. If one certain instance finds the server done, it will send an
+ * election message to all the instances of which the ID is larger. If the target instance is alive,
+ * it will return an alive message (in this sample return true) and then send election message with
+ * its ID. If not, the original instance will send leader message to all the other instances.
  */
 public class BullyInstance extends AbstractInstance {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BullyInstance.class);
+  private static final String INSTANCE = "Instance ";
 
   /**
    * Constructor of BullyInstance.
@@ -50,43 +51,44 @@ public class BullyInstance extends AbstractInstance {
   }
 
   /**
-   * Process the heartbeat invoke message. After receiving the message, the instance will send a heartbeat
-   * to leader to check its health. If alive, it will inform the next instance to do the heartbeat. If not,
-   * it will start the election process.
+   * Process the heartbeat invoke message. After receiving the message, the instance will send a
+   * heartbeat to leader to check its health. If alive, it will inform the next instance to do the
+   * heartbeat. If not, it will start the election process.
    */
   @Override
   protected void handleHeartbeatInvokeMessage() {
     try {
       boolean isLeaderAlive = messageManager.sendHeartbeatMessage(leaderId);
       if (isLeaderAlive) {
-        LOGGER.info("Instance " + localId + "- Leader is alive.");
+        LOGGER.info(INSTANCE + localId + "- Leader is alive.");
         Thread.sleep(HEARTBEAT_INTERVAL);
         messageManager.sendHeartbeatInvokeMessage(localId);
       } else {
-        LOGGER.info("Instance " + localId + "- Leader is not alive. Start election.");
-        boolean electionResult = messageManager.sendElectionMessage(localId, String.valueOf(localId));
+        LOGGER.info(INSTANCE + localId + "- Leader is not alive. Start election.");
+        boolean electionResult =
+            messageManager.sendElectionMessage(localId, String.valueOf(localId));
         if (electionResult) {
-          LOGGER.info("Instance " + localId + "- Succeed in election. Start leader notification.");
+          LOGGER.info(INSTANCE + localId + "- Succeed in election. Start leader notification.");
           messageManager.sendLeaderMessage(localId, localId);
         }
       }
     } catch (InterruptedException e) {
-      LOGGER.info("Instance " + localId + "- Interrupted.");
+      LOGGER.info(INSTANCE + localId + "- Interrupted.");
     }
   }
 
   /**
-   * Process election invoke message. Send election message to all the instances with smaller ID. If any
-   * one of them is alive, do nothing. If no instance alive, send leader message to all the alive instance
-   * and restart heartbeat.
+   * Process election invoke message. Send election message to all the instances with smaller ID. If
+   * any one of them is alive, do nothing. If no instance alive, send leader message to all the
+   * alive instance and restart heartbeat.
    */
   @Override
   protected void handleElectionInvokeMessage() {
     if (!isLeader()) {
-      LOGGER.info("Instance " + localId + "- Start election.");
+      LOGGER.info(INSTANCE + localId + "- Start election.");
       boolean electionResult = messageManager.sendElectionMessage(localId, String.valueOf(localId));
       if (electionResult) {
-        LOGGER.info("Instance " + localId + "- Succeed in election. Start leader notification.");
+        LOGGER.info(INSTANCE + localId + "- Succeed in election. Start leader notification.");
         leaderId = localId;
         messageManager.sendLeaderMessage(localId, localId);
         messageManager.sendHeartbeatInvokeMessage(localId);
@@ -100,22 +102,25 @@ public class BullyInstance extends AbstractInstance {
   @Override
   protected void handleLeaderMessage(Message message) {
     leaderId = Integer.valueOf(message.getContent());
-    LOGGER.info("Instance " + localId + " - Leader update done.");
+    LOGGER.info(INSTANCE + localId + " - Leader update done.");
   }
 
   private boolean isLeader() {
     return localId == leaderId;
   }
 
-  /**
-   * Not used in Bully instance.
-   */
   @Override
-  protected void handleLeaderInvokeMessage() {}
+  protected void handleLeaderInvokeMessage() {
+    // Not used in Bully Instance
+  }
 
   @Override
-  protected void handleHeartbeatMessage(Message message) {}
+  protected void handleHeartbeatMessage(Message message) {
+    // Not used in Bully Instance
+  }
 
   @Override
-  protected void handleElectionMessage(Message message) {}
+  protected void handleElectionMessage(Message message) {
+    // Not used in Bully Instance
+  }
 }

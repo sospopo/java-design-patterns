@@ -25,9 +25,10 @@ package units;
 
 import abstractextensions.UnitExtension;
 import concreteextensions.Soldier;
+import java.util.Optional;
 
 /**
- * Class defining SoldierUnit
+ * Class defining SoldierUnit.
  */
 public class SoldierUnit extends Unit {
 
@@ -39,12 +40,9 @@ public class SoldierUnit extends Unit {
   public UnitExtension getUnitExtension(String extensionName) {
 
     if (extensionName.equals("SoldierExtension")) {
-      if (unitExtension == null) {
-        unitExtension = new Soldier(this);
-      }
-
-      return unitExtension;
+      return Optional.ofNullable(unitExtension).orElseGet(() -> new Soldier(this));
     }
+
     return super.getUnitExtension(extensionName);
   }
 }

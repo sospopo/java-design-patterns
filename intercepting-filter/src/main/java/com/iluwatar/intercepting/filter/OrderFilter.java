@@ -25,16 +25,16 @@ package com.iluwatar.intercepting.filter;
 
 /**
  * Concrete implementation of filter. This checks for the order field.
- * 
- * @author joshzambales
  *
+ * @author joshzambales
  */
 public class OrderFilter extends AbstractFilter {
 
   @Override
   public String execute(Order order) {
-    String result = super.execute(order);
-    if (order.getOrderItem() == null || order.getOrderItem().isEmpty()) {
+    var result = super.execute(order);
+    var orderItem = order.getOrderItem();
+    if (orderItem == null || orderItem.isEmpty()) {
       return result + "Invalid order! ";
     } else {
       return result;

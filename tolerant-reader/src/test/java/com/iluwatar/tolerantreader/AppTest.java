@@ -23,32 +23,30 @@
 
 package com.iluwatar.tolerantreader;
 
+import java.io.File;
+import java.io.IOException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
- * 
  * Application test
- *
  */
-public class AppTest {
+class AppTest {
 
   @Test
-  public void test() throws ClassNotFoundException, IOException {
-    String[] args = {};
-    App.main(args);
+  void shouldExecuteWithoutException() {
+    assertDoesNotThrow(() -> App.main(new String[]{}));
   }
 
   @BeforeEach
   @AfterEach
-  public void cleanup() {
-    File file1 = new File("fish1.out");
+  void cleanup() {
+    var file1 = new File("fish1.out");
     file1.delete();
-    File file2 = new File("fish2.out");
+    var file2 = new File("fish2.out");
     file2.delete();
   }
 }

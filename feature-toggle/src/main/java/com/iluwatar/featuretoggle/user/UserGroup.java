@@ -27,15 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains the lists of users of different groups paid and free. Used to demonstrate the tiered example of feature
- * toggle. Allowing certain features to be available to only certain groups of users.
+ * Contains the lists of users of different groups paid and free. Used to demonstrate the tiered
+ * example of feature toggle. Allowing certain features to be available to only certain groups of
+ * users.
  *
  * @see User
  */
 public class UserGroup {
 
-  private static List<User> freeGroup = new ArrayList<>();
-  private static List<User> paidGroup = new ArrayList<>();
+  private static final List<User> freeGroup = new ArrayList<>();
+  private static final List<User> paidGroup = new ArrayList<>();
 
 
   /**
@@ -76,7 +77,6 @@ public class UserGroup {
    * Method to take a {@link User} to determine if the user is in the {@link UserGroup#paidGroup}.
    *
    * @param user {@link User} to check if they are in the {@link UserGroup#paidGroup}
-   *
    * @return true if the {@link User} is in {@link UserGroup#paidGroup}
    */
   public static boolean isPaid(User user) {

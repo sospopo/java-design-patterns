@@ -23,29 +23,26 @@
 
 package com.iluwatar.servicelayer.magic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.iluwatar.servicelayer.spell.Spell;
 import com.iluwatar.servicelayer.spell.SpellDao;
 import com.iluwatar.servicelayer.spellbook.Spellbook;
 import com.iluwatar.servicelayer.spellbook.SpellbookDao;
 import com.iluwatar.servicelayer.wizard.Wizard;
 import com.iluwatar.servicelayer.wizard.WizardDao;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
  * Service implementation.
- *
  */
 public class MagicServiceImpl implements MagicService {
 
-  private WizardDao wizardDao;
-  private SpellbookDao spellbookDao;
-  private SpellDao spellDao;
+  private final WizardDao wizardDao;
+  private final SpellbookDao spellbookDao;
+  private final SpellDao spellDao;
 
   /**
-   * Constructor
+   * Constructor.
    */
   public MagicServiceImpl(WizardDao wizardDao, SpellbookDao spellbookDao, SpellDao spellDao) {
     this.wizardDao = wizardDao;

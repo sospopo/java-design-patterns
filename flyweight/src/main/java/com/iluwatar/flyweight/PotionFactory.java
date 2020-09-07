@@ -27,11 +27,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * 
  * PotionFactory is the Flyweight in this example. It minimizes memory use by sharing object
  * instances. It holds a map of potion instances and new potions are created only when none of the
  * type already exists.
- * 
  */
 public class PotionFactory {
 
@@ -42,7 +40,7 @@ public class PotionFactory {
   }
 
   Potion createPotion(PotionType type) {
-    Potion potion = potions.get(type);
+    var potion = potions.get(type);
     if (potion == null) {
       switch (type) {
         case HEALING:

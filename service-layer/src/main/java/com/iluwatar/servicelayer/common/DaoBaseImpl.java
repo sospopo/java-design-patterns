@@ -23,23 +23,18 @@
 
 package com.iluwatar.servicelayer.common;
 
+import com.iluwatar.servicelayer.hibernate.HibernateUtil;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.iluwatar.servicelayer.hibernate.HibernateUtil;
-
 /**
- * 
  * Base class for Dao implementations.
  *
- * @param <E>
- * 
+ * @param <E> Type of Entity
  */
 public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
 
@@ -57,10 +52,9 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
 
   @Override
   public E find(Long id) {
-    var session = getSessionFactory().openSession();
     Transaction tx = null;
-    E result = null;
-    try {
+    E result;
+    try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       var criteria = session.createCriteria(persistentClass);
       criteria.add(Restrictions.idEq(id));
@@ -71,17 +65,14 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
         tx.rollback();
       }
       throw e;
-    } finally {
-      session.close();
     }
     return result;
   }
 
   @Override
   public void persist(E entity) {
-    var session = getSessionFactory().openSession();
     Transaction tx = null;
-    try {
+    try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       session.persist(entity);
       tx.commit();
@@ -90,17 +81,14 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
         tx.rollback();
       }
       throw e;
-    } finally {
-      session.close();
     }
   }
 
   @Override
   public E merge(E entity) {
-    var session = getSessionFactory().openSession();
     Transaction tx = null;
     E result = null;
-    try {
+    try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       result = (E) session.merge(entity);
       tx.commit();
@@ -109,17 +97,14 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
         tx.rollback();
       }
       throw e;
-    } finally {
-      session.close();
     }
     return result;
   }
 
   @Override
   public void delete(E entity) {
-    var session = getSessionFactory().openSession();
     Transaction tx = null;
-    try {
+    try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       session.delete(entity);
       tx.commit();
@@ -128,17 +113,14 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
         tx.rollback();
       }
       throw e;
-    } finally {
-      session.close();
     }
   }
 
   @Override
   public List<E> findAll() {
-    var session = getSessionFactory().openSession();
     Transaction tx = null;
-    List<E> result = null;
-    try {
+    List<E> result;
+    try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       Criteria criteria = session.createCriteria(persistentClass);
       result = criteria.list();
@@ -147,8 +129,6 @@ public abstract class DaoBaseImpl<E extends BaseEntity> implements Dao<E> {
         tx.rollback();
       }
       throw e;
-    } finally {
-      session.close();
     }
     return result;
   }

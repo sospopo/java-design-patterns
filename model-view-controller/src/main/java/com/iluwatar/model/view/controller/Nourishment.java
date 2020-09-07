@@ -24,15 +24,14 @@
 package com.iluwatar.model.view.controller;
 
 /**
- * 
- * Nourishment enumeration
- *
+ * Nourishment enumeration.
  */
 public enum Nourishment {
+  SATURATED("saturated"),
+  HUNGRY("hungry"),
+  STARVING("starving");
 
-  SATURATED("saturated"), HUNGRY("hungry"), STARVING("starving");
-
-  private String title;
+  private final String title;
 
   Nourishment(String title) {
     this.title = title;

@@ -25,7 +25,6 @@ package com.iluwatar.dao;
 
 /**
  * A customer POJO that represents the data that will be read from the data source.
- *
  */
 public class Customer {
 
@@ -36,7 +35,7 @@ public class Customer {
   /**
    * Creates an instance of customer.
    */
-  public Customer(final int id, final String firstName, final String lastName) {
+  public Customer(int id, String firstName, String lastName) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -74,11 +73,11 @@ public class Customer {
 
   @Override
   public boolean equals(final Object that) {
-    boolean isEqual = false;
+    var isEqual = false;
     if (this == that) {
       isEqual = true;
     } else if (that != null && getClass() == that.getClass()) {
-      final Customer customer = (Customer) that;
+      final var customer = (Customer) that;
       if (getId() == customer.getId()) {
         isEqual = true;
       }

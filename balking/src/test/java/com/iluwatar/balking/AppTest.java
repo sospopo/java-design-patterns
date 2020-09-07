@@ -24,16 +24,26 @@
 package com.iluwatar.balking;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 
 /**
  * Application test
  */
-public class AppTest {
+class AppTest {
+
+  /**
+   * Issue: Add at least one assertion to this test case.
+   *
+   * Solution: Inserted assertion to check whether the execution of the main method in {@link App}
+   * throws an exception.
+   */
 
   @Test
-  public void main() throws Exception {
-    String[] args = {};
-    App.main(args);
+  void shouldExecuteApplicationWithoutException() {
+    assertDoesNotThrow((Executable) App::main);
   }
 
 }

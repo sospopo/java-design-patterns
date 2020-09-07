@@ -27,13 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Decorator that adds a club for the troll
+ * Decorator that adds a club for the troll.
  */
 public class ClubbedTroll implements Troll {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ClubbedTroll.class);
 
-  private Troll decorated;
+  private final Troll decorated;
 
   public ClubbedTroll(Troll decorated) {
     this.decorated = decorated;

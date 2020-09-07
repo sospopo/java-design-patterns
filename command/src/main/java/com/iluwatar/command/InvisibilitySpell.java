@@ -24,11 +24,9 @@
 package com.iluwatar.command;
 
 /**
- * 
- * InvisibilitySpell is a concrete command
- *
+ * InvisibilitySpell is a concrete command.
  */
-public class InvisibilitySpell extends Command {
+public class InvisibilitySpell implements Command {
 
   private Target target;
 

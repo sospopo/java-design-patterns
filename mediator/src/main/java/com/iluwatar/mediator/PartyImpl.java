@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * Party implementation.
- *
  */
 public class PartyImpl implements Party {
 
@@ -41,7 +39,7 @@ public class PartyImpl implements Party {
 
   @Override
   public void act(PartyMember actor, Action action) {
-    for (PartyMember member : members) {
+    for (var member : members) {
       if (!member.equals(actor)) {
         member.partyAction(action);
       }

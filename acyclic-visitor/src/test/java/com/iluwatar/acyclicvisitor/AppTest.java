@@ -25,16 +25,23 @@ package com.iluwatar.acyclicvisitor;
 
 import org.junit.jupiter.api.Test;
 
-import com.iluwatar.acyclicvisitor.App;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * Tests that the Acyclic Visitor example runs without errors.
  */
-public class AppTest {
-  
+class AppTest {
+
+  /**
+   * Issue: Add at least one assertion to this test case.
+   *
+   * Solution: Inserted assertion to check whether the execution of the main method in {@link App}
+   * throws an exception.
+   */
+
   @Test
-  public void test() {
-    String[] args = {};
-    App.main(args);  
+  void shouldExecuteApplicationWithoutException() {
+
+    assertDoesNotThrow(() -> App.main(new String[]{}));
   }
 }

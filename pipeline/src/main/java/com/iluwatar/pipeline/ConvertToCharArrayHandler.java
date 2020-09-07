@@ -23,10 +23,9 @@
 
 package com.iluwatar.pipeline;
 
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 /**
  * Stage handler that converts an input String to its char[] array counterpart.
@@ -37,9 +36,12 @@ class ConvertToCharArrayHandler implements Handler<String, char[]> {
 
   @Override
   public char[] process(String input) {
-    char[] characters = input.toCharArray();
-    LOGGER.info(String.format("Current handler: %s, input is %s of type %s, output is %s, of type %s",
-        ConvertToCharArrayHandler.class, input, String.class, Arrays.toString(characters), Character[].class));
+    var characters = input.toCharArray();
+    var string = Arrays.toString(characters);
+    LOGGER.info(
+        String.format("Current handler: %s, input is %s of type %s, output is %s, of type %s",
+            ConvertToCharArrayHandler.class, input, String.class, string, Character[].class)
+    );
 
     return characters;
   }

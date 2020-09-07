@@ -27,15 +27,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 
  * Nazgul is a Multiton class. Nazgul instances can be queried using {@link #getInstance} method.
- *
  */
 public final class Nazgul {
 
-  private static Map<NazgulName, Nazgul> nazguls;
+  private static final Map<NazgulName, Nazgul> nazguls;
 
-  private NazgulName name;
+  private final NazgulName name;
 
   static {
     nazguls = new ConcurrentHashMap<>();

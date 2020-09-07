@@ -24,34 +24,35 @@
 package com.iluwatar.servicelocator;
 
 /**
- * 
  * The Service Locator pattern is a design pattern used in software development to encapsulate the
  * processes involved in obtaining a service with a strong abstraction layer. This pattern uses a
  * central registry known as the "service locator", which on request returns the information
  * necessary to perform a certain task.
- * <p>
- * In this example we use the Service locator pattern to lookup JNDI-services and cache them for
+ *
+ * <p>In this example we use the Service locator pattern to lookup JNDI-services and cache them for
  * subsequent requests.
- * <p>
- * 
+ * <br>
+ *
  * @author saifasif
- * 
  */
 public class App {
 
+  public static final String JNDI_SERVICE_A = "jndi/serviceA";
+  public static final String JNDI_SERVICE_B = "jndi/serviceB";
+
   /**
-   * Program entry point
-   * 
+   * Program entry point.
+   *
    * @param args command line args
    */
   public static void main(String[] args) {
-    var service = ServiceLocator.getService("jndi/serviceA");
+    var service = ServiceLocator.getService(JNDI_SERVICE_A);
     service.execute();
-    service = ServiceLocator.getService("jndi/serviceB");
+    service = ServiceLocator.getService(JNDI_SERVICE_B);
     service.execute();
-    service = ServiceLocator.getService("jndi/serviceA");
+    service = ServiceLocator.getService(JNDI_SERVICE_A);
     service.execute();
-    service = ServiceLocator.getService("jndi/serviceA");
+    service = ServiceLocator.getService(JNDI_SERVICE_A);
     service.execute();
   }
 }

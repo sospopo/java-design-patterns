@@ -32,11 +32,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is the Account class that holds the account info, the account number,
- * account owner name and money of the account. Account class also have the business logic of events
- * that effects this account.
+ * This is the Account class that holds the account info, the account number, account owner name and
+ * money of the account. Account class also have the business logic of events that effects this
+ * account.
  *
- * Created by Serdar Hamzaogullari on 06.08.2017.
+ * <p>Created by Serdar Hamzaogullari on 06.08.2017.
  */
 public class Account {
 
@@ -45,14 +45,15 @@ public class Account {
   private final int accountNo;
   private final String owner;
   private BigDecimal money;
-  
-  private static final String MSG = "Some external api for only realtime execution could be called here.";
+
+  private static final String MSG =
+      "Some external api for only realtime execution could be called here.";
 
   /**
    * Instantiates a new Account.
    *
    * @param accountNo the account no
-   * @param owner the owner
+   * @param owner     the owner
    */
   public Account(int accountNo, String owner) {
     this.accountNo = accountNo;
@@ -103,7 +104,7 @@ public class Account {
    * @return the account
    */
   public Account copy() {
-    Account account = new Account(accountNo, owner);
+    var account = new Account(accountNo, owner);
     account.setMoney(money);
     return account;
   }
@@ -134,7 +135,7 @@ public class Account {
   }
 
   private void handleWithdrawal(BigDecimal money, boolean realTime) {
-    if (this.money.compareTo(money) == -1) {
+    if (this.money.compareTo(money) < 0) {
       throw new RuntimeException("Insufficient Account Balance");
     }
 

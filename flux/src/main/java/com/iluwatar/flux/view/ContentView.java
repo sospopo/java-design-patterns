@@ -30,9 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * ContentView is a concrete view.
- *
  */
 public class ContentView implements View {
 
@@ -42,7 +40,7 @@ public class ContentView implements View {
 
   @Override
   public void storeChanged(Store store) {
-    ContentStore contentStore = (ContentStore) store;
+    var contentStore = (ContentStore) store;
     content = contentStore.getContent();
     render();
   }

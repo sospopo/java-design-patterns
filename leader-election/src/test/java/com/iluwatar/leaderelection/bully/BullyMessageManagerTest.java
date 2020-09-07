@@ -24,12 +24,9 @@
 package com.iluwatar.leaderelection.bully;
 
 import com.iluwatar.leaderelection.*;
-import com.iluwatar.leaderelection.ring.RingInstance;
-import com.iluwatar.leaderelection.ring.RingMessageManager;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
@@ -42,34 +39,29 @@ public class BullyMessageManagerTest {
 
   @Test
   public void testSendHeartbeatMessage() {
-    Instance instance1 = new BullyInstance(null, 1, 1);
-    Map<Integer, Instance> instanceMap = new HashMap<>();
-    instanceMap.put(1, instance1);
-    MessageManager messageManager = new BullyMessageManager(instanceMap);
+    var instance1 = new BullyInstance(null, 1, 1);
+    Map<Integer, Instance> instanceMap = Map.of(1, instance1);
+    var messageManager = new BullyMessageManager(instanceMap);
     assertTrue(messageManager.sendHeartbeatMessage(1));
   }
 
   @Test
   public void testSendElectionMessageNotAccepted() {
     try {
-      Instance instance1 = new BullyInstance(null, 1, 1);
-      Instance instance2 = new BullyInstance(null, 1, 2);
-      Instance instance3 = new BullyInstance(null, 1, 3);
-      Instance instance4 = new BullyInstance(null, 1, 4);
-      Map<Integer, Instance> instanceMap = new HashMap<>();
-      instanceMap.put(1, instance1);
-      instanceMap.put(2, instance2);
-      instanceMap.put(3, instance3);
-      instanceMap.put(4, instance4);
+      var instance1 = new BullyInstance(null, 1, 1);
+      var instance2 = new BullyInstance(null, 1, 2);
+      var instance3 = new BullyInstance(null, 1, 3);
+      var instance4 = new BullyInstance(null, 1, 4);
+      Map<Integer, Instance> instanceMap = Map.of(1, instance1, 2, instance2, 3, instance3, 4, instance4);
       instance1.setAlive(false);
-      MessageManager messageManager = new BullyMessageManager(instanceMap);
-      boolean result = messageManager.sendElectionMessage(3, "3");
-      Class instanceClass = AbstractInstance.class;
-      Field messageQueueField = instanceClass.getDeclaredField("messageQueue");
+      var messageManager = new BullyMessageManager(instanceMap);
+      var result = messageManager.sendElectionMessage(3, "3");
+      var instanceClass = AbstractInstance.class;
+      var messageQueueField = instanceClass.getDeclaredField("messageQueue");
       messageQueueField.setAccessible(true);
-      Message message2 = ((Queue<Message>) messageQueueField.get(instance2)).poll();
-      int instance4QueueSize = ((Queue<Message>) messageQueueField.get(instance4)).size();
-      Message expectedMessage = new Message(MessageType.ELECTION_INVOKE, "");
+      var message2 = ((Queue<Message>) messageQueueField.get(instance2)).poll();
+      var instance4QueueSize = ((Queue<Message>) messageQueueField.get(instance4)).size();
+      var expectedMessage = new Message(MessageType.ELECTION_INVOKE, "");
       assertEquals(message2, expectedMessage);
       assertEquals(instance4QueueSize, 0);
       assertEquals(result, false);
@@ -80,42 +72,34 @@ public class BullyMessageManagerTest {
 
   @Test
   public void testElectionMessageAccepted() {
-    Instance instance1 = new BullyInstance(null, 1, 1);
-    Instance instance2 = new BullyInstance(null, 1, 2);
-    Instance instance3 = new BullyInstance(null, 1, 3);
-    Instance instance4 = new BullyInstance(null, 1, 4);
-    Map<Integer, Instance> instanceMap = new HashMap<>();
-    instanceMap.put(1, instance1);
-    instanceMap.put(2, instance2);
-    instanceMap.put(3, instance3);
-    instanceMap.put(4, instance4);
+    var instance1 = new BullyInstance(null, 1, 1);
+    var instance2 = new BullyInstance(null, 1, 2);
+    var instance3 = new BullyInstance(null, 1, 3);
+    var instance4 = new BullyInstance(null, 1, 4);
+    Map<Integer, Instance> instanceMap = Map.of(1, instance1, 2, instance2, 3, instance3, 4, instance4);
     instance1.setAlive(false);
-    MessageManager messageManager = new BullyMessageManager(instanceMap);
-    boolean result = messageManager.sendElectionMessage(2, "2");
+    var messageManager = new BullyMessageManager(instanceMap);
+    var result = messageManager.sendElectionMessage(2, "2");
     assertEquals(result, true);
   }
 
   @Test
   public void testSendLeaderMessage() {
     try {
-      Instance instance1 = new BullyInstance(null, 1, 1);
-      Instance instance2 = new BullyInstance(null, 1, 2);
-      Instance instance3 = new BullyInstance(null, 1, 3);
-      Instance instance4 = new BullyInstance(null, 1, 4);
-      Map<Integer, Instance> instanceMap = new HashMap<>();
-      instanceMap.put(1, instance1);
-      instanceMap.put(2, instance2);
-      instanceMap.put(3, instance3);
-      instanceMap.put(4, instance4);
+      var instance1 = new BullyInstance(null, 1, 1);
+      var instance2 = new BullyInstance(null, 1, 2);
+      var instance3 = new BullyInstance(null, 1, 3);
+      var instance4 = new BullyInstance(null, 1, 4);
+      Map<Integer, Instance> instanceMap = Map.of(1, instance1, 2, instance2, 3, instance3, 4, instance4);
       instance1.setAlive(false);
-      MessageManager messageManager = new BullyMessageManager(instanceMap);
+      var messageManager = new BullyMessageManager(instanceMap);
       messageManager.sendLeaderMessage(2, 2);
-      Class instanceClass = AbstractInstance.class;
-      Field messageQueueField = instanceClass.getDeclaredField("messageQueue");
+      var instanceClass = AbstractInstance.class;
+      var messageQueueField = instanceClass.getDeclaredField("messageQueue");
       messageQueueField.setAccessible(true);
-      Message message3 = ((Queue<Message>) messageQueueField.get(instance3)).poll();
-      Message message4 = ((Queue<Message>) messageQueueField.get(instance4)).poll();
-      Message expectedMessage = new Message(MessageType.LEADER, "2");
+      var message3 = ((Queue<Message>) messageQueueField.get(instance3)).poll();
+      var message4 = ((Queue<Message>) messageQueueField.get(instance4)).poll();
+      var expectedMessage = new Message(MessageType.LEADER, "2");
       assertEquals(message3, expectedMessage);
       assertEquals(message4, expectedMessage);
     } catch (IllegalAccessException | NoSuchFieldException e) {
@@ -126,20 +110,17 @@ public class BullyMessageManagerTest {
   @Test
   public void testSendHeartbeatInvokeMessage() {
     try {
-      Instance instance1 = new BullyInstance(null, 1, 1);
-      Instance instance2 = new BullyInstance(null, 1, 2);
-      Instance instance3 = new BullyInstance(null, 1, 3);
-      Map<Integer, Instance> instanceMap = new HashMap<>();
-      instanceMap.put(1, instance1);
-      instanceMap.put(2, instance2);
-      instanceMap.put(3, instance3);
-      MessageManager messageManager = new BullyMessageManager(instanceMap);
+      var instance1 = new BullyInstance(null, 1, 1);
+      var instance2 = new BullyInstance(null, 1, 2);
+      var instance3 = new BullyInstance(null, 1, 3);
+      Map<Integer, Instance> instanceMap = Map.of(1, instance1, 2, instance2, 3, instance3);
+      var messageManager = new BullyMessageManager(instanceMap);
       messageManager.sendHeartbeatInvokeMessage(2);
-      Message message = new Message(MessageType.HEARTBEAT_INVOKE, "");
-      Class instanceClass = AbstractInstance.class;
-      Field messageQueueField = instanceClass.getDeclaredField("messageQueue");
+      var message = new Message(MessageType.HEARTBEAT_INVOKE, "");
+      var instanceClass = AbstractInstance.class;
+      var messageQueueField = instanceClass.getDeclaredField("messageQueue");
       messageQueueField.setAccessible(true);
-      Message messageSent = ((Queue<Message>) messageQueueField.get(instance3)).poll();
+      var messageSent = ((Queue<Message>) messageQueueField.get(instance3)).poll();
       assertEquals(messageSent.getType(), message.getType());
       assertEquals(messageSent.getContent(), message.getContent());
     } catch (NoSuchFieldException | IllegalAccessException e) {

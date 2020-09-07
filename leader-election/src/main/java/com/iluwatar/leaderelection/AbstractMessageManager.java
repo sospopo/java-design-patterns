@@ -38,7 +38,7 @@ public abstract class AbstractMessageManager implements MessageManager {
   protected Map<Integer, Instance> instanceMap;
 
   /**
-   * Construtor of AbstractMessageManager
+   * Construtor of AbstractMessageManager.
    */
   public AbstractMessageManager(Map<Integer, Instance> instanceMap) {
     this.instanceMap = instanceMap;
@@ -46,17 +46,18 @@ public abstract class AbstractMessageManager implements MessageManager {
 
   /**
    * Find the next instance with smallest ID.
+   *
    * @return The next instance.
    */
   protected Instance findNextInstance(int currentId) {
     Instance result = null;
-    List<Integer> candidateList = instanceMap.keySet()
-          .stream()
-          .filter((i) -> i > currentId && instanceMap.get(i).isAlive())
-          .sorted()
-          .collect(Collectors.toList());
+    var candidateList = instanceMap.keySet()
+        .stream()
+        .filter((i) -> i > currentId && instanceMap.get(i).isAlive())
+        .sorted()
+        .collect(Collectors.toList());
     if (candidateList.isEmpty()) {
-      int index = instanceMap.keySet()
+      var index = instanceMap.keySet()
           .stream()
           .filter((i) -> instanceMap.get(i).isAlive())
           .sorted()
@@ -64,7 +65,7 @@ public abstract class AbstractMessageManager implements MessageManager {
           .get(0);
       result = instanceMap.get(index);
     } else {
-      int index = candidateList.get(0);
+      var index = candidateList.get(0);
       result = instanceMap.get(index);
     }
     return result;

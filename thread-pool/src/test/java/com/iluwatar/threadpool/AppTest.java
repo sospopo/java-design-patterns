@@ -25,17 +25,17 @@ package com.iluwatar.threadpool;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 /**
  * Application test
- * 
- * @author ilkka
  *
+ * @author ilkka
  */
-public class AppTest {
+class AppTest {
 
   @Test
-  public void test() {
-    String[] args = {};
-    App.main(args);
+  void shouldExecuteWithoutException() {
+    assertDoesNotThrow(() -> App.main(new String[]{}));
   }
 }

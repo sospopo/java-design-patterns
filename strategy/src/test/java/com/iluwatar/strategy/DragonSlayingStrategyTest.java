@@ -23,34 +23,34 @@
 
 package com.iluwatar.strategy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
- * Date: 12/29/15 - 10:58 PM
+ * Date: 12/29/15 - 10:58 PM.
  *
  * @author Jeroen Meulemeester
  */
 public class DragonSlayingStrategyTest {
 
   /**
+   * Assembles test parameters.
+   *
    * @return The test parameters for each cycle
    */
   static Collection<Object[]> dataProvider() {
-    return Arrays.asList(
+    return List.of(
         new Object[]{
             new MeleeStrategy(),
             "With your Excalibur you sever the dragon's head!"
@@ -80,7 +80,7 @@ public class DragonSlayingStrategyTest {
 
 
   /**
-   * Test if executing the strategy gives the correct response
+   * Test if executing the strategy gives the correct response.
    */
   @ParameterizedTest
   @MethodSource("dataProvider")
@@ -91,7 +91,7 @@ public class DragonSlayingStrategyTest {
   }
 
   private class InMemoryAppender extends AppenderBase<ILoggingEvent> {
-    private List<ILoggingEvent> log = new LinkedList<>();
+    private final List<ILoggingEvent> log = new LinkedList<>();
 
     public InMemoryAppender() {
       ((Logger) LoggerFactory.getLogger("root")).addAppender(this);

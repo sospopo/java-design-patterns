@@ -24,11 +24,11 @@
 package com.iluwatar.value.object;
 
 /**
- * HeroStat is a value object
- * 
+ * HeroStat is a value object.
+ *
  * @see <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html">
- * http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html
- * </a>
+ *     http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html
+ *     </a>
  */
 public class HeroStat {
 
@@ -103,10 +103,7 @@ public class HeroStat {
     if (luck != other.luck) {
       return false;
     }
-    if (strength != other.strength) {
-      return false;
-    }
-    return true;
+    return strength == other.strength;
   }
 
   // The clone() method should not be public. Just don't override it.

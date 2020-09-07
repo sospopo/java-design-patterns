@@ -27,12 +27,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Handles the routing of {@link Event} messages to associated handlers.
- * A {@link HashMap} is used to store the association between events and their respective handlers.
+ * Handles the routing of {@link Event} messages to associated handlers. A {@link HashMap} is used
+ * to store the association between events and their respective handlers.
  */
 public class EventDispatcher {
 
-  private Map<Class<? extends Event>, Handler<? extends Event>> handlers;
+  private final Map<Class<? extends Event>, Handler<? extends Event>> handlers;
 
   public EventDispatcher() {
     handlers = new HashMap<>();
@@ -44,8 +44,10 @@ public class EventDispatcher {
    * @param eventType The {@link Event} to be registered
    * @param handler   The {@link Handler} that will be handling the {@link Event}
    */
-  public <E extends Event> void registerHandler(Class<E> eventType,
-                                                Handler<E> handler) {
+  public <E extends Event> void registerHandler(
+      Class<E> eventType,
+      Handler<E> handler
+  ) {
     handlers.put(eventType, handler);
   }
 
@@ -56,7 +58,7 @@ public class EventDispatcher {
    */
   @SuppressWarnings("unchecked")
   public <E extends Event> void dispatch(E event) {
-    Handler<E> handler = (Handler<E>) handlers.get(event.getClass());
+    var handler = (Handler<E>) handlers.get(event.getClass());
     if (handler != null) {
       handler.onEvent(event);
     }

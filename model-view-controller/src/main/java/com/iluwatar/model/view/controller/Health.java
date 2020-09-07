@@ -24,15 +24,14 @@
 package com.iluwatar.model.view.controller;
 
 /**
- * 
- * Health enumeration
- *
+ * Health enumeration.
  */
 public enum Health {
+  HEALTHY("healthy"),
+  WOUNDED("wounded"),
+  DEAD("dead");
 
-  HEALTHY("healthy"), WOUNDED("wounded"), DEAD("dead");
-
-  private String title;
+  private final String title;
 
   Health(String title) {
     this.title = title;

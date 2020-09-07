@@ -24,9 +24,8 @@
 package com.iluwatar.mutex;
 
 /**
- * A Jar has a resource of beans which can only be accessed by a single Thief
- * (thread) at any one time. A Mutex lock is used to prevent more than one Thief
- * taking a bean simultaneously. 
+ * A Jar has a resource of beans which can only be accessed by a single Thief (thread) at any one
+ * time. A Mutex lock is used to prevent more than one Thief taking a bean simultaneously.
  */
 public class Jar {
 
@@ -49,7 +48,7 @@ public class Jar {
    * Method for a thief to take a bean.
    */
   public boolean takeBean() {
-    boolean success = false;
+    var success = false;
     try {
       lock.acquire();
       success = beans > 0;

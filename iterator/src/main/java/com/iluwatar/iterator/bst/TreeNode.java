@@ -31,12 +31,12 @@ package com.iluwatar.iterator.bst;
  */
 public class TreeNode<T extends Comparable<T>> {
 
-  private T val;
+  private final T val;
   private TreeNode<T> left;
   private TreeNode<T> right;
 
   /**
-   * Creates a TreeNode with a given value, and null children
+   * Creates a TreeNode with a given value, and null children.
    *
    * @param val The value of the given node
    */
@@ -67,12 +67,12 @@ public class TreeNode<T extends Comparable<T>> {
   }
 
   /**
-   * Inserts new TreeNode based on a given value into the subtree represented by self
+   * Inserts new TreeNode based on a given value into the subtree represented by self.
    *
    * @param valToInsert The value to insert as a new TreeNode
    */
   public void insert(T valToInsert) {
-    TreeNode<T> parent = getParentNodeOfValueToBeInserted(valToInsert);
+    var parent = getParentNodeOfValueToBeInserted(valToInsert);
     parent.insertNewChild(valToInsert);
   }
 
@@ -84,7 +84,7 @@ public class TreeNode<T extends Comparable<T>> {
    */
   private TreeNode<T> getParentNodeOfValueToBeInserted(T valToInsert) {
     TreeNode<T> parent = null;
-    TreeNode<T> curr = this;
+    var curr = this;
 
     while (curr != null) {
       parent = curr;

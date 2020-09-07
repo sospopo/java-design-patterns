@@ -33,12 +33,12 @@ import java.util.Random;
 public class Order { //can store all transactions ids also
 
   enum PaymentStatus {
-    NotDone, Trying, Done
-  };
-  
+    NOT_DONE, TRYING, DONE
+  }
+
   enum MessageSent {
-    NoneSent, PaymentFail, PaymentTrying, PaymentSuccessful
-  };
+    NONE_SENT, PAYMENT_FAIL, PAYMENT_TRYING, PAYMENT_SUCCESSFUL
+  }
 
   final User user;
   final String item;
@@ -65,12 +65,12 @@ public class Order { //can store all transactions ids also
     }
     this.id = id;
     USED_IDS.put(this.id, true);
-    this.paid = PaymentStatus.Trying;
-    this.messageSent = MessageSent.NoneSent;
+    this.paid = PaymentStatus.TRYING;
+    this.messageSent = MessageSent.NONE_SENT;
     this.addedToEmployeeHandle = false;
   }
 
-  String createUniqueId() {
+  private String createUniqueId() {
     StringBuilder random = new StringBuilder();
     while (random.length() < 12) { // length of the random string.
       int index = (int) (RANDOM.nextFloat() * ALL_CHARS.length());
@@ -78,5 +78,5 @@ public class Order { //can store all transactions ids also
     }
     return random.toString();
   }
-  
+
 }

@@ -27,30 +27,29 @@ import com.iluwatar.leaderelection.Instance;
 import com.iluwatar.leaderelection.Message;
 import com.iluwatar.leaderelection.MessageManager;
 import com.iluwatar.leaderelection.MessageType;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Example of how to use ring leader election. Initially 5 instances is created in the clould
- * system, and the instance with ID 1 is set as leader. After the system is started stop the
- * leader instance, and the new leader will be elected.
+ * system, and the instance with ID 1 is set as leader. After the system is started stop the leader
+ * instance, and the new leader will be elected.
  */
 public class RingApp {
 
   /**
-   * Program entry point
+   * Program entry point.
    */
   public static void main(String[] args) {
 
     Map<Integer, Instance> instanceMap = new HashMap<>();
-    MessageManager messageManager = new RingMessageManager(instanceMap);
+    var messageManager = new RingMessageManager(instanceMap);
 
-    RingInstance instance1 = new RingInstance(messageManager, 1, 1);
-    RingInstance instance2 = new RingInstance(messageManager, 2, 1);
-    RingInstance instance3 = new RingInstance(messageManager, 3, 1);
-    RingInstance instance4 = new RingInstance(messageManager, 4, 1);
-    RingInstance instance5 = new RingInstance(messageManager, 5, 1);
+    var instance1 = new RingInstance(messageManager, 1, 1);
+    var instance2 = new RingInstance(messageManager, 2, 1);
+    var instance3 = new RingInstance(messageManager, 3, 1);
+    var instance4 = new RingInstance(messageManager, 4, 1);
+    var instance5 = new RingInstance(messageManager, 5, 1);
 
     instanceMap.put(1, instance1);
     instanceMap.put(2, instance2);
@@ -60,11 +59,11 @@ public class RingApp {
 
     instance2.onMessage(new Message(MessageType.HEARTBEAT_INVOKE, ""));
 
-    Thread thread1 = new Thread(instance1);
-    Thread thread2 = new Thread(instance2);
-    Thread thread3 = new Thread(instance3);
-    Thread thread4 = new Thread(instance4);
-    Thread thread5 = new Thread(instance5);
+    final var thread1 = new Thread(instance1);
+    final var thread2 = new Thread(instance2);
+    final var thread3 = new Thread(instance3);
+    final var thread4 = new Thread(instance4);
+    final var thread5 = new Thread(instance5);
 
     thread1.start();
     thread2.start();

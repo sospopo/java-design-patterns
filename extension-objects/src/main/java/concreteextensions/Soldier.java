@@ -29,12 +29,12 @@ import org.slf4j.LoggerFactory;
 import units.SoldierUnit;
 
 /**
- * Class defining Soldier
+ * Class defining Soldier.
  */
 public class Soldier implements SoldierExtension {
   private static final Logger LOGGER = LoggerFactory.getLogger(Soldier.class);
 
-  private SoldierUnit unit;
+  private final SoldierUnit unit;
 
   public Soldier(SoldierUnit soldierUnit) {
     this.unit = soldierUnit;
@@ -42,6 +42,10 @@ public class Soldier implements SoldierExtension {
 
   @Override
   public void soldierReady() {
-    LOGGER.info("[Solider] " + unit.getName() + "  is ready!");
+    LOGGER.info("[Soldier] " + unit.getName() + " is ready!");
+  }
+
+  public SoldierUnit getUnit() {
+    return unit;
   }
 }

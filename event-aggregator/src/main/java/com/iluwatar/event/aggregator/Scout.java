@@ -24,9 +24,7 @@
 package com.iluwatar.event.aggregator;
 
 /**
- * 
  * Scout produces events.
- *
  */
 public class Scout extends EventEmitter {
 
@@ -39,7 +37,7 @@ public class Scout extends EventEmitter {
 
   @Override
   public void timePasses(Weekday day) {
-    if (day.equals(Weekday.TUESDAY)) {
+    if (day == Weekday.TUESDAY) {
       notifyObservers(Event.WARSHIPS_APPROACHING);
     }
   }

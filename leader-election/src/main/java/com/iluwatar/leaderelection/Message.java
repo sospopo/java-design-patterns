@@ -26,7 +26,7 @@ package com.iluwatar.leaderelection;
 import java.util.Objects;
 
 /**
- *  Message used to transport data between instances.
+ * Message used to transport data between instances.
  */
 public class Message {
 
@@ -34,7 +34,8 @@ public class Message {
 
   private String content;
 
-  public Message() {}
+  public Message() {
+  }
 
   public Message(MessageType type, String content) {
     this.type = type;
@@ -65,7 +66,7 @@ public class Message {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Message message = (Message) o;
+    var message = (Message) o;
     return type == message.type && Objects.equals(content, message.content);
   }
 

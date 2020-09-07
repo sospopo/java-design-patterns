@@ -24,20 +24,18 @@
 package com.iluwatar.prototype;
 
 /**
- * 
- * ElfMage
- *
+ * ElfMage.
  */
 public class ElfMage extends Mage {
 
-  
-  private String helpType;
-  
+  private final String helpType;
+
   public ElfMage(String helpType) {
     this.helpType = helpType;
   }
 
   public ElfMage(ElfMage elfMage) {
+    super(elfMage);
     this.helpType = elfMage.helpType;
   }
 
@@ -51,4 +49,21 @@ public class ElfMage extends Mage {
     return "Elven mage helps in " + helpType;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    var other = (ElfMage) obj;
+    if (helpType == null) {
+      return other.helpType == null;
+    }
+    return helpType.equals(other.helpType);
+  }
 }

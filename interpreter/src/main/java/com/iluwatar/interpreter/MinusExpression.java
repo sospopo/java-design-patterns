@@ -24,14 +24,12 @@
 package com.iluwatar.interpreter;
 
 /**
- * 
- * MinusExpression
- *
+ * MinusExpression.
  */
 public class MinusExpression extends Expression {
 
-  private Expression leftExpression;
-  private Expression rightExpression;
+  private final Expression leftExpression;
+  private final Expression rightExpression;
 
   public MinusExpression(Expression leftExpression, Expression rightExpression) {
     this.leftExpression = leftExpression;

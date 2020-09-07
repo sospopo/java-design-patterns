@@ -24,9 +24,7 @@
 package com.iluwatar.hexagonal.domain;
 
 /**
- * 
  * Immutable value object representing lottery ticket.
- *
  */
 public class LotteryTicket {
 
@@ -44,13 +42,17 @@ public class LotteryTicket {
   }
 
   /**
+   * Get player details.
+   *
    * @return player details
    */
   public PlayerDetails getPlayerDetails() {
     return playerDetails;
   }
-  
+
   /**
+   * Get lottery numbers.
+   *
    * @return lottery numbers
    */
   public LotteryNumbers getNumbers() {
@@ -58,6 +60,8 @@ public class LotteryTicket {
   }
 
   /**
+   * Get ticket id.
+   *
    * @return id
    */
   public LotteryTicketId getId() {
@@ -65,7 +69,7 @@ public class LotteryTicket {
   }
 
   /**
-   * set id
+   * Set ticket id.
    */
   public void setId(LotteryTicketId id) {
     this.id = id;
@@ -78,8 +82,8 @@ public class LotteryTicket {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final var prime = 31;
+    var result = 1;
     result = prime * result + ((lotteryNumbers == null) ? 0 : lotteryNumbers.hashCode());
     result = prime * result + ((playerDetails == null) ? 0 : playerDetails.hashCode());
     return result;
@@ -96,7 +100,7 @@ public class LotteryTicket {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    LotteryTicket other = (LotteryTicket) obj;
+    var other = (LotteryTicket) obj;
     if (lotteryNumbers == null) {
       if (other.lotteryNumbers != null) {
         return false;
@@ -105,12 +109,9 @@ public class LotteryTicket {
       return false;
     }
     if (playerDetails == null) {
-      if (other.playerDetails != null) {
-        return false;
-      }
-    } else if (!playerDetails.equals(other.playerDetails)) {
-      return false;
+      return other.playerDetails == null;
+    } else {
+      return playerDetails.equals(other.playerDetails);
     }
-    return true;
   }
 }

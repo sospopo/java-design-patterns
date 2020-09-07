@@ -31,15 +31,17 @@ import java.util.List;
  */
 public class App {
   /**
+   * Program entry point.
    *
    * @param args no argument sent
    */
+
   public static void main(String[] args) {
     var ram = new Student(1, "Ram", "Street 9, Cupertino");
     var shyam = new Student(2, "Shyam", "Z bridge, Pune");
     var gopi = new Student(3, "Gopi", "Street 10, Mumbai");
 
-    HashMap<String, List<Student>> context = new HashMap<>();
+    var context = new HashMap<String, List<Student>>();
     var studentDatabase = new StudentDatabase();
     var studentRepository = new StudentRepository(context, studentDatabase);
 

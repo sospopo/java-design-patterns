@@ -24,23 +24,18 @@
 package com.iluwatar.servicelayer.spell;
 
 import com.iluwatar.servicelayer.common.DaoBaseImpl;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 /**
- * 
  * SpellDao implementation.
- *
  */
 public class SpellDaoImpl extends DaoBaseImpl<Spell> implements SpellDao {
 
   @Override
   public Spell findByName(String name) {
     Transaction tx = null;
-    Spell result = null;
+    Spell result;
     try (var session = getSessionFactory().openSession()) {
       tx = session.beginTransaction();
       var criteria = session.createCriteria(persistentClass);

@@ -24,13 +24,24 @@
 package com.iluwatar.observer;
 
 /**
- * 
- * WeatherType enumeration
- * 
+ * WeatherType enumeration.
  */
 public enum WeatherType {
 
-  SUNNY, RAINY, WINDY, COLD;
+  SUNNY("Sunny"),
+  RAINY("Rainy"),
+  WINDY("Windy"),
+  COLD("Cold");
+
+  private final String description;
+
+  WeatherType(String description) {
+    this.description = description;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
 
   @Override
   public String toString() {

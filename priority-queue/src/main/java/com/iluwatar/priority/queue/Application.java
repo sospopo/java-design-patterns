@@ -25,35 +25,33 @@ package com.iluwatar.priority.queue;
 
 /**
  * Prioritize requests sent to services so that requests with a higher priority are received and
- * processed more quickly than those of a lower priority.
- * This pattern is useful in applications that offer different service level guarantees
- * to individual clients.
- * Example :Send multiple message with different priority to worker queue.
- * Worker execute higher priority message first
+ * processed more quickly than those of a lower priority. This pattern is useful in applications
+ * that offer different service level guarantees to individual clients. Example :Send multiple
+ * message with different priority to worker queue. Worker execute higher priority message first
+ *
  * @see "https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589794(v=pandp.10)"
  */
 public class Application {
   /**
-   * main entry
+   * main entry.
    */
   public static void main(String[] args) throws Exception {
 
-    QueueManager queueManager = new QueueManager(100);
+    var queueManager = new QueueManager(10);
 
     // push some message to queue
     // Low Priority message
-    for (int i = 0; i < 100; i++) {
+    for (var i = 0; i < 10; i++) {
       queueManager.publishMessage(new Message("Low Message Priority", 0));
     }
 
     // High Priority message
-    for (int i = 0; i < 100; i++) {
+    for (var i = 0; i < 10; i++) {
       queueManager.publishMessage(new Message("High Message Priority", 1));
     }
 
-
     // run worker
-    Worker worker = new Worker(queueManager);
+    var worker = new Worker(queueManager);
     worker.run();
 
 

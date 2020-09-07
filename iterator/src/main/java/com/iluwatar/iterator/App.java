@@ -30,7 +30,6 @@ import static com.iluwatar.iterator.list.ItemType.WEAPON;
 
 import com.iluwatar.iterator.bst.BstIterator;
 import com.iluwatar.iterator.bst.TreeNode;
-import com.iluwatar.iterator.list.Item;
 import com.iluwatar.iterator.list.ItemType;
 import com.iluwatar.iterator.list.TreasureChest;
 import org.slf4j.Logger;
@@ -39,8 +38,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Iterator pattern is a design pattern in which an iterator is used to traverse a container and
  * access the container's elements. The Iterator pattern decouples algorithms from containers.
- * <p>
- * In this example the Iterator ({@link Iterator}) adds abstraction layer on top of a collection
+ *
+ * <p>In this example the Iterator ({@link Iterator}) adds abstraction layer on top of a collection
  * ({@link TreasureChest}). This way the collection can change its internal implementation without
  * affecting its clients.
  */
@@ -53,7 +52,7 @@ public class App {
   private static void demonstrateTreasureChestIteratorForType(ItemType itemType) {
     LOGGER.info("------------------------");
     LOGGER.info("Item Iterator for ItemType " + itemType + ": ");
-    Iterator<Item> itemIterator = TREASURE_CHEST.iterator(itemType);
+    var itemIterator = TREASURE_CHEST.iterator(itemType);
     while (itemIterator.hasNext()) {
       LOGGER.info(itemIterator.next().toString());
     }
@@ -62,15 +61,15 @@ public class App {
   private static void demonstrateBstIterator() {
     LOGGER.info("------------------------");
     LOGGER.info("BST Iterator: ");
-    TreeNode<Integer> root = buildIntegerBst();
-    BstIterator bstIterator = new BstIterator<>(root);
+    var root = buildIntegerBst();
+    var bstIterator = new BstIterator<>(root);
     while (bstIterator.hasNext()) {
       LOGGER.info("Next node: " + bstIterator.next().getVal());
     }
   }
 
   private static TreeNode<Integer> buildIntegerBst() {
-    TreeNode<Integer> root = new TreeNode<>(8);
+    var root = new TreeNode<>(8);
 
     root.insert(3);
     root.insert(10);
@@ -85,7 +84,7 @@ public class App {
   }
 
   /**
-   * Program entry point
+   * Program entry point.
    *
    * @param args command line args
    */

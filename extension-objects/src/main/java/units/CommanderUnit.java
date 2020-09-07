@@ -25,9 +25,10 @@ package units;
 
 import abstractextensions.UnitExtension;
 import concreteextensions.Commander;
+import java.util.Optional;
 
 /**
- * Class defining CommanderUnit
+ * Class defining CommanderUnit.
  */
 public class CommanderUnit extends Unit {
 
@@ -39,10 +40,7 @@ public class CommanderUnit extends Unit {
   public UnitExtension getUnitExtension(String extensionName) {
 
     if (extensionName.equals("CommanderExtension")) {
-      if (unitExtension == null) {
-        unitExtension = new Commander(this);
-      }
-      return unitExtension;
+      return Optional.ofNullable(unitExtension).orElseGet(() -> new Commander(this));
     }
 
     return super.getUnitExtension(extensionName);

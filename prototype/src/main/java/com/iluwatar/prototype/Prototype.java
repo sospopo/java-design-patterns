@@ -24,12 +24,10 @@
 package com.iluwatar.prototype;
 
 /**
- * 
- * Prototype
- *
+ * Prototype.
  */
-public abstract class Prototype implements Cloneable {
+public interface Prototype {
 
-  public abstract Object copy() throws CloneNotSupportedException;
+  Object copy();
 
 }

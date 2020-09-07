@@ -30,42 +30,45 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 /**
- * Mongo based event log
+ * Mongo based event log.
  */
 public class MongoEventLog implements LotteryEventLog {
 
   private static final String DEFAULT_DB = "lotteryDB";
   private static final String DEFAULT_EVENTS_COLLECTION = "events";
+  private static final String EMAIL = "email";
+  private static final String PHONE = "phone";
+  public static final String MESSAGE = "message";
 
   private MongoClient mongoClient;
   private MongoDatabase database;
   private MongoCollection<Document> eventsCollection;
 
-  private StdOutEventLog stdOutEventLog = new StdOutEventLog();
+  private final StdOutEventLog stdOutEventLog = new StdOutEventLog();
 
   /**
-   * Constructor
+   * Constructor.
    */
   public MongoEventLog() {
     connect();
   }
 
   /**
-   * Constructor accepting parameters
+   * Constructor accepting parameters.
    */
   public MongoEventLog(String dbName, String eventsCollectionName) {
     connect(dbName, eventsCollectionName);
   }
 
   /**
-   * Connect to database with default parameters
+   * Connect to database with default parameters.
    */
   public void connect() {
     connect(DEFAULT_DB, DEFAULT_EVENTS_COLLECTION);
   }
 
   /**
-   * Connect to database with given parameters
+   * Connect to database with given parameters.
    */
   public void connect(String dbName, String eventsCollectionName) {
     if (mongoClient != null) {
@@ -78,6 +81,8 @@ public class MongoEventLog implements LotteryEventLog {
   }
 
   /**
+   * Get mongo client.
+   *
    * @return mongo client
    */
   public MongoClient getMongoClient() {
@@ -85,6 +90,7 @@ public class MongoEventLog implements LotteryEventLog {
   }
 
   /**
+   * Get mongo database.
    *
    * @return mongo database
    */
@@ -93,8 +99,9 @@ public class MongoEventLog implements LotteryEventLog {
   }
 
   /**
+   * Get events collection.
    *
-   * @return accounts collection
+   * @return events collection
    */
   public MongoCollection<Document> getEventsCollection() {
     return eventsCollection;
@@ -103,52 +110,55 @@ public class MongoEventLog implements LotteryEventLog {
 
   @Override
   public void ticketSubmitted(PlayerDetails details) {
-    Document document = new Document("email", details.getEmail());
-    document.put("phone", details.getPhoneNumber());
+    var document = new Document(EMAIL, details.getEmail());
+    document.put(PHONE, details.getPhoneNumber());
     document.put("bank", details.getBankAccount());
-    document.put("message", "Lottery ticket was submitted and bank account was charged for 3 credits.");
+    document
+        .put(MESSAGE, "Lottery ticket was submitted and bank account was charged for 3 credits.");
     eventsCollection.insertOne(document);
     stdOutEventLog.ticketSubmitted(details);
   }
 
   @Override
   public void ticketSubmitError(PlayerDetails details) {
-    Document document = new Document("email", details.getEmail());
-    document.put("phone", details.getPhoneNumber());
+    var document = new Document(EMAIL, details.getEmail());
+    document.put(PHONE, details.getPhoneNumber());
     document.put("bank", details.getBankAccount());
-    document.put("message", "Lottery ticket could not be submitted because lack of funds.");
+    document.put(MESSAGE, "Lottery ticket could not be submitted because lack of funds.");
     eventsCollection.insertOne(document);
     stdOutEventLog.ticketSubmitError(details);
   }
 
   @Override
   public void ticketDidNotWin(PlayerDetails details) {
-    Document document = new Document("email", details.getEmail());
-    document.put("phone", details.getPhoneNumber());
+    var document = new Document(EMAIL, details.getEmail());
+    document.put(PHONE, details.getPhoneNumber());
     document.put("bank", details.getBankAccount());
-    document.put("message", "Lottery ticket was checked and unfortunately did not win this time.");
+    document.put(MESSAGE, "Lottery ticket was checked and unfortunately did not win this time.");
     eventsCollection.insertOne(document);
     stdOutEventLog.ticketDidNotWin(details);
   }
 
   @Override
   public void ticketWon(PlayerDetails details, int prizeAmount) {
-    Document document = new Document("email", details.getEmail());
-    document.put("phone", details.getPhoneNumber());
+    var document = new Document(EMAIL, details.getEmail());
+    document.put(PHONE, details.getPhoneNumber());
     document.put("bank", details.getBankAccount());
-    document.put("message", String.format("Lottery ticket won! The bank account was deposited with %d credits.",
-        prizeAmount));
+    document.put(MESSAGE, String
+        .format("Lottery ticket won! The bank account was deposited with %d credits.",
+            prizeAmount));
     eventsCollection.insertOne(document);
     stdOutEventLog.ticketWon(details, prizeAmount);
   }
 
   @Override
   public void prizeError(PlayerDetails details, int prizeAmount) {
-    Document document = new Document("email", details.getEmail());
-    document.put("phone", details.getPhoneNumber());
+    var document = new Document(EMAIL, details.getEmail());
+    document.put(PHONE, details.getPhoneNumber());
     document.put("bank", details.getBankAccount());
-    document.put("message", String.format("Lottery ticket won! Unfortunately the bank credit transfer of %d failed.",
-        prizeAmount));
+    document.put(MESSAGE, String
+        .format("Lottery ticket won! Unfortunately the bank credit transfer of %d failed.",
+            prizeAmount));
     eventsCollection.insertOne(document);
     stdOutEventLog.prizeError(details, prizeAmount);
   }

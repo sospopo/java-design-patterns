@@ -24,17 +24,20 @@
 package com.iluwatar.specification.creature;
 
 import com.iluwatar.specification.property.Color;
+import com.iluwatar.specification.property.Mass;
 import com.iluwatar.specification.property.Movement;
 import com.iluwatar.specification.property.Size;
 
 /**
- * 
  * Octopus creature.
- *
  */
 public class Octopus extends AbstractCreature {
 
   public Octopus() {
-    super("Octopus", Size.NORMAL, Movement.SWIMMING, Color.DARK);
+    this(new Mass(12.0));
+  }
+
+  public Octopus(Mass mass) {
+    super("Octopus", Size.NORMAL, Movement.SWIMMING, Color.DARK, mass);
   }
 }

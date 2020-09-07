@@ -29,13 +29,13 @@ import org.slf4j.LoggerFactory;
 import units.CommanderUnit;
 
 /**
- * Class defining Commander
+ * Class defining Commander.
  */
 public class Commander implements CommanderExtension {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Commander.class);
 
-  private CommanderUnit unit;
+  private final CommanderUnit unit;
 
   public Commander(CommanderUnit commanderUnit) {
     this.unit = commanderUnit;
@@ -44,5 +44,9 @@ public class Commander implements CommanderExtension {
   @Override
   public void commanderReady() {
     LOGGER.info("[Commander] " + unit.getName() + " is ready!");
+  }
+
+  public CommanderUnit getUnit() {
+    return unit;
   }
 }

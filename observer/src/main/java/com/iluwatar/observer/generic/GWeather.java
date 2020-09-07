@@ -28,9 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
- * GWeather
- *
+ * GWeather.
  */
 public class GWeather extends Observable<GWeather, Race, WeatherType> {
 
@@ -43,10 +41,10 @@ public class GWeather extends Observable<GWeather, Race, WeatherType> {
   }
 
   /**
-   * Makes time pass for weather
+   * Makes time pass for weather.
    */
   public void timePasses() {
-    WeatherType[] enumValues = WeatherType.values();
+    var enumValues = WeatherType.values();
     currentWeather = enumValues[(currentWeather.ordinal() + 1) % enumValues.length];
     LOGGER.info("The weather changed to {}.", currentWeather);
     notifyObservers(currentWeather);

@@ -27,22 +27,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
- * RequestHandler
- *
+ * RequestHandler.
  */
 public abstract class RequestHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestHandler.class);
 
-  private RequestHandler next;
+  private final RequestHandler next;
 
   public RequestHandler(RequestHandler next) {
     this.next = next;
   }
 
   /**
-   * Request handler
+   * Request handler.
    */
   public void handleRequest(Request req) {
     if (next != null) {

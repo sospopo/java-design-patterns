@@ -28,11 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * {@link Message} basic implementation
+ * {@link Message} basic implementation.
  */
 public class SimpleMessage implements Message {
 
-  private Map<Headers, String> headers = new HashMap<>();
+  private final Map<Headers, String> headers = new HashMap<>();
   private String body;
 
   @Override

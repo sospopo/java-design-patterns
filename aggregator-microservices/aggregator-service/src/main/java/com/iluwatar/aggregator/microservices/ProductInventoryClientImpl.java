@@ -28,7 +28,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -42,10 +41,13 @@ public class ProductInventoryClientImpl implements ProductInventoryClient {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductInventoryClientImpl.class);
 
   @Override
-  public int getProductInventories() {
-    var response = "0";
+  public Integer getProductInventories() {
+    var response = "";
 
-    var request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:51516/inventories")).build();
+    var request = HttpRequest.newBuilder()
+        .GET()
+        .uri(URI.create("http://localhost:51516/inventories"))
+        .build();
     var client = HttpClient.newHttpClient();
     try {
       var httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -55,6 +57,10 @@ public class ProductInventoryClientImpl implements ProductInventoryClient {
     } catch (InterruptedException ie) {
       LOGGER.error("InterruptedException Occurred", ie);
     }
-    return Integer.parseInt(response);
+    if ("".equalsIgnoreCase(response)) {
+      return null;
+    } else {
+      return Integer.parseInt(response);
+    }
   }
 }

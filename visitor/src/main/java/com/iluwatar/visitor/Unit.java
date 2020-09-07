@@ -23,25 +23,23 @@
 
 package com.iluwatar.visitor;
 
+import java.util.Arrays;
+
 /**
- * 
  * Interface for the nodes in hierarchy.
- * 
  */
 public abstract class Unit {
 
-  private Unit[] children;
+  private final Unit[] children;
 
   public Unit(Unit... children) {
     this.children = children;
   }
 
   /**
-   * Accept visitor
+   * Accept visitor.
    */
   public void accept(UnitVisitor visitor) {
-    for (var child : children) {
-      child.accept(visitor);
-    }
+    Arrays.stream(children).forEach(child -> child.accept(visitor));
   }
 }

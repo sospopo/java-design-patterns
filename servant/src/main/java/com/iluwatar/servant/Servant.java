@@ -26,16 +26,14 @@ package com.iluwatar.servant;
 import java.util.List;
 
 /**
- * 
- * Servant
- *
+ * Servant.
  */
 public class Servant {
 
   public String name;
 
   /**
-   * Constructor
+   * Constructor.
    */
   public Servant(String name) {
     this.name = name;
@@ -54,16 +52,9 @@ public class Servant {
   }
 
   /**
-   * Check if we will be hanged
+   * Check if we will be hanged.
    */
   public boolean checkIfYouWillBeHanged(List<Royalty> tableGuests) {
-    boolean anotherDay = true;
-    for (Royalty r : tableGuests) {
-      if (!r.getMood()) {
-        anotherDay = false;
-      }
-    }
-
-    return anotherDay;
+    return tableGuests.stream().allMatch(Royalty::getMood);
   }
 }

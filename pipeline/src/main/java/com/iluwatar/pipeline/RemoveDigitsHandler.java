@@ -23,11 +23,13 @@
 
 package com.iluwatar.pipeline;
 
+import java.util.function.IntPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Stage handler that returns a new instance of String without the digit characters of the input string.
+ * Stage handler that returns a new instance of String without the digit characters of the input
+ * string.
  */
 class RemoveDigitsHandler implements Handler<String, String> {
 
@@ -35,20 +37,20 @@ class RemoveDigitsHandler implements Handler<String, String> {
 
   @Override
   public String process(String input) {
-    StringBuilder inputWithoutDigits = new StringBuilder();
+    var inputWithoutDigits = new StringBuilder();
+    var isDigit = (IntPredicate) Character::isDigit;
+    input.chars()
+        .filter(isDigit.negate())
+        .mapToObj(x -> (char) x)
+        .forEachOrdered(inputWithoutDigits::append);
 
-    for (int index = 0; index < input.length(); index++) {
-      char currentCharacter = input.charAt(index);
-      if (Character.isDigit(currentCharacter)) {
-        continue;
-      }
-
-      inputWithoutDigits.append(currentCharacter);
-    }
-
-    String inputWithoutDigitsStr = inputWithoutDigits.toString();
-    LOGGER.info(String.format("Current handler: %s, input is %s of type %s, output is %s, of type %s",
-        RemoveDigitsHandler.class, input, String.class, inputWithoutDigitsStr, String.class));
+    var inputWithoutDigitsStr = inputWithoutDigits.toString();
+    LOGGER.info(
+        String.format(
+            "Current handler: %s, input is %s of type %s, output is %s, of type %s",
+            RemoveDigitsHandler.class, input, String.class, inputWithoutDigitsStr, String.class
+        )
+    );
 
     return inputWithoutDigitsStr;
   }

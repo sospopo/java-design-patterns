@@ -24,9 +24,7 @@
 package com.iluwatar.event.aggregator;
 
 /**
- * 
  * LordVarys produces events.
- *
  */
 public class LordVarys extends EventEmitter {
 
@@ -39,7 +37,7 @@ public class LordVarys extends EventEmitter {
 
   @Override
   public void timePasses(Weekday day) {
-    if (day.equals(Weekday.SATURDAY)) {
+    if (day == Weekday.SATURDAY) {
       notifyObservers(Event.TRAITOR_DETECTED);
     }
   }

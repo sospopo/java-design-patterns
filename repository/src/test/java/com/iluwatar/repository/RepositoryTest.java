@@ -27,12 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Optional;
-
 import javax.annotation.Resource;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,46 +37,41 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.google.common.collect.Lists;
-
 /**
  * Test case to test the functions of {@link PersonRepository}, beside the CRUD functions, the query
  * by {@link org.springframework.data.jpa.domain.Specification} are also test.
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = { "locations=classpath:applicationContext.xml" })
+@SpringBootTest(properties = {"locations=classpath:applicationContext.xml"})
 public class RepositoryTest {
 
   @Resource
   private PersonRepository repository;
 
-  Person peter = new Person("Peter", "Sagan", 17);
-  Person nasta = new Person("Nasta", "Kuzminova", 25);
-  Person john = new Person("John", "lawrence", 35);
-  Person terry = new Person("Terry", "Law", 36);
+  private final Person peter = new Person("Peter", "Sagan", 17);
+  private final Person nasta = new Person("Nasta", "Kuzminova", 25);
+  private final Person john = new Person("John", "lawrence", 35);
+  private final Person terry = new Person("Terry", "Law", 36);
 
-  List<Person> persons = Arrays.asList(peter, nasta, john, terry);
+  private final List<Person> persons = List.of(peter, nasta, john, terry);
 
   /**
    * Prepare data for test
    */
   @BeforeEach
   public void setup() {
-
     repository.saveAll(persons);
   }
 
   @Test
   public void testFindAll() {
-
-    List<Person> actuals = Lists.newArrayList(repository.findAll());
+    var actuals = Lists.newArrayList(repository.findAll());
     assertTrue(actuals.containsAll(persons) && persons.containsAll(actuals));
   }
 
   @Test
   public void testSave() {
-
-    Person terry = repository.findByName("Terry");
+    var terry = repository.findByName("Terry");
     terry.setSurname("Lee");
     terry.setAge(47);
     repository.save(terry);
@@ -91,8 +83,7 @@ public class RepositoryTest {
 
   @Test
   public void testDelete() {
-
-    Person terry = repository.findByName("Terry");
+    var terry = repository.findByName("Terry");
     repository.delete(terry);
 
     assertEquals(3, repository.count());
@@ -101,14 +92,12 @@ public class RepositoryTest {
 
   @Test
   public void testCount() {
-
     assertEquals(4, repository.count());
   }
 
   @Test
   public void testFindAllByAgeBetweenSpec() {
-
-    List<Person> persons = repository.findAll(new PersonSpecifications.AgeBetweenSpec(20, 40));
+    var persons = repository.findAll(new PersonSpecifications.AgeBetweenSpec(20, 40));
 
     assertEquals(3, persons.size());
     assertTrue(persons.stream().allMatch(item -> item.getAge() > 20 && item.getAge() < 40));
@@ -116,14 +105,13 @@ public class RepositoryTest {
 
   @Test
   public void testFindOneByNameEqualSpec() {
-
-    Optional<Person> actual = repository.findOne(new PersonSpecifications.NameEqualSpec("Terry"));
+    var actual = repository.findOne(new PersonSpecifications.NameEqualSpec("Terry"));
+    assertTrue(actual.isPresent());
     assertEquals(terry, actual.get());
   }
 
   @AfterEach
   public void cleanup() {
-
     repository.deleteAll();
   }
 

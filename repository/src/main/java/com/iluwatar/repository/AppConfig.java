@@ -23,13 +23,9 @@
 
 package com.iluwatar.repository;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
@@ -42,9 +38,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 /**
- * This is the same example as in {@link App} but with annotations based 
- * configuration for Spring.
- *
+ * This is the same example as in {@link App} but with annotations based configuration for Spring.
  */
 @EnableJpaRepositories
 @SpringBootConfiguration
@@ -53,13 +47,13 @@ public class AppConfig {
   private static final Logger LOGGER = LoggerFactory.getLogger(AppConfig.class);
 
   /**
-   * Creation of H2 db
-   * 
+   * Creation of H2 db.
+   *
    * @return A new Instance of DataSource
    */
   @Bean(destroyMethod = "close")
   public DataSource dataSource() {
-    BasicDataSource basicDataSource = new BasicDataSource();
+    var basicDataSource = new BasicDataSource();
     basicDataSource.setDriverClassName("org.h2.Driver");
     basicDataSource.setUrl("jdbc:h2:~/databases/person");
     basicDataSource.setUsername("sa");
@@ -68,55 +62,51 @@ public class AppConfig {
   }
 
   /**
-   * Factory to create a especific instance of Entity Manager
+   * Factory to create a especific instance of Entity Manager.
    */
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-    LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+    var entityManager = new LocalContainerEntityManagerFactoryBean();
     entityManager.setDataSource(dataSource());
     entityManager.setPackagesToScan("com.iluwatar");
     entityManager.setPersistenceProvider(new HibernatePersistenceProvider());
     entityManager.setJpaProperties(jpaProperties());
-
     return entityManager;
   }
 
   /**
-   * Properties for Jpa
+   * Properties for Jpa.
    */
   private static Properties jpaProperties() {
-    Properties properties = new Properties();
+    var properties = new Properties();
     properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
     return properties;
   }
 
   /**
-   * Get transaction manager
+   * Get transaction manager.
    */
   @Bean
-  public JpaTransactionManager transactionManager() throws SQLException {
-    JpaTransactionManager transactionManager = new JpaTransactionManager();
+  public JpaTransactionManager transactionManager() {
+    var transactionManager = new JpaTransactionManager();
     transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
     return transactionManager;
   }
 
   /**
-   * Program entry point
-   * 
-   * @param args
-   *          command line args
+   * Program entry point.
+   *
+   * @param args command line args
    */
   public static void main(String[] args) {
+    var context = new AnnotationConfigApplicationContext(AppConfig.class);
+    var repository = context.getBean(PersonRepository.class);
 
-    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-        AppConfig.class);
-    PersonRepository repository = context.getBean(PersonRepository.class);
-
-    Person peter = new Person("Peter", "Sagan", 17);
-    Person nasta = new Person("Nasta", "Kuzminova", 25);
-    Person john = new Person("John", "lawrence", 35);
-    Person terry = new Person("Terry", "Law", 36);
+    var peter = new Person("Peter", "Sagan", 17);
+    var nasta = new Person("Nasta", "Kuzminova", 25);
+    var john = new Person("John", "lawrence", 35);
+    var terry = new Person("Terry", "Law", 36);
 
     // Add new Person records
     repository.save(peter);
@@ -128,17 +118,15 @@ public class AppConfig {
     LOGGER.info("Count Person records: {}", repository.count());
 
     // Print all records
-    List<Person> persons = (List<Person>) repository.findAll();
-    for (Person person : persons) {
-      LOGGER.info(person.toString());
-    }
+    var persons = (List<Person>) repository.findAll();
+    persons.stream().map(Person::toString).forEach(LOGGER::info);
 
     // Update Person
     nasta.setName("Barbora");
     nasta.setSurname("Spotakova");
     repository.save(nasta);
 
-    LOGGER.info("Find by id 2: {}", repository.findById(2L).get());
+    repository.findById(2L).ifPresent(p -> LOGGER.info("Find by id 2: {}", p));
 
     // Remove record from Person
     repository.deleteById(2L);
@@ -147,16 +135,15 @@ public class AppConfig {
     LOGGER.info("Count Person records: {}", repository.count());
 
     // find by name
-    Optional<Person> p = repository.findOne(new PersonSpecifications.NameEqualSpec("John"));
-    LOGGER.info("Find by John is {}", p.get());
+    repository
+        .findOne(new PersonSpecifications.NameEqualSpec("John"))
+        .ifPresent(p -> LOGGER.info("Find by John is {}", p));
 
     // find by age
     persons = repository.findAll(new PersonSpecifications.AgeBetweenSpec(20, 40));
 
     LOGGER.info("Find Person with age between 20,40: ");
-    for (Person person : persons) {
-      LOGGER.info(person.toString());
-    }
+    persons.stream().map(Person::toString).forEach(LOGGER::info);
 
     context.close();
 

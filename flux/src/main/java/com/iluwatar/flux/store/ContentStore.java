@@ -29,9 +29,7 @@ import com.iluwatar.flux.action.Content;
 import com.iluwatar.flux.action.ContentAction;
 
 /**
- * 
  * ContentStore is a concrete store.
- *
  */
 public class ContentStore extends Store {
 
@@ -40,7 +38,7 @@ public class ContentStore extends Store {
   @Override
   public void onAction(Action action) {
     if (action.getType().equals(ActionType.CONTENT_CHANGED)) {
-      ContentAction contentAction = (ContentAction) action;
+      var contentAction = (ContentAction) action;
       content = contentAction.getContent();
       notifyChange();
     }

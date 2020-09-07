@@ -24,11 +24,9 @@
 package com.iluwatar.command;
 
 /**
- * 
- * ShrinkSpell is a concrete command
- *
+ * ShrinkSpell is a concrete command.
  */
-public class ShrinkSpell extends Command {
+public class ShrinkSpell implements Command {
 
   private Size oldSize;
   private Target target;
@@ -43,7 +41,7 @@ public class ShrinkSpell extends Command {
   @Override
   public void undo() {
     if (oldSize != null && target != null) {
-      Size temp = target.getSize();
+      var temp = target.getSize();
       target.setSize(oldSize);
       oldSize = temp;
     }

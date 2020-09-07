@@ -23,16 +23,15 @@
 
 package com.iluwatar.spatialpartition;
 
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
-
 /**
- * Bubble class extends Point. In this example, we create several bubbles in the field,
- * let them move and keep track of which ones have popped and which ones remain.
+ * Bubble class extends Point. In this example, we create several bubbles in the field, let them
+ * move and keep track of which ones have popped and which ones remain.
  */
 
 public class Bubble extends Point<Bubble> {
@@ -42,34 +41,36 @@ public class Bubble extends Point<Bubble> {
   final int radius;
 
   Bubble(int x, int y, int id, int radius) {
-    super(x,y,id);
+    super(x, y, id);
     this.radius = radius;
   }
 
   void move() {
     //moves by 1 unit in either direction
-    this.x += RANDOM.nextInt(3) - 1;
-    this.y += RANDOM.nextInt(3) - 1;
+    this.coordinateX += RANDOM.nextInt(3) - 1;
+    this.coordinateY += RANDOM.nextInt(3) - 1;
   }
 
   boolean touches(Bubble b) {
     //distance between them is greater than sum of radii (both sides of equation squared)
-    return (this.x - b.x) * (this.x - b.x) + (this.y - b.y) * (this.y - b.y)
-                <= (this.radius + b.radius) * (this.radius + b.radius);
+    return (this.coordinateX - b.coordinateX) * (this.coordinateX - b.coordinateX)
+        + (this.coordinateY - b.coordinateY) * (this.coordinateY - b.coordinateY)
+        <= (this.radius + b.radius) * (this.radius + b.radius);
   }
 
   void pop(Hashtable<Integer, Bubble> allBubbles) {
-    LOGGER.info("Bubble " + this.id + " popped at (" + this.x + "," + this.y + ")!");
+    LOGGER.info("Bubble " + this.id
+        + " popped at (" + this.coordinateX + "," + this.coordinateY + ")!");
     allBubbles.remove(this.id);
   }
 
-  void handleCollision(ArrayList<Point> bubblesToCheck, Hashtable<Integer, Bubble> allBubbles) {
-    boolean toBePopped = false; //if any other bubble collides with it, made true
-    for (int i = 0; i < bubblesToCheck.size(); i++) {
-      Integer otherId = bubblesToCheck.get(i).id;
+  void handleCollision(Collection<? extends Point> toCheck, Hashtable<Integer, Bubble> allBubbles) {
+    var toBePopped = false; //if any other bubble collides with it, made true
+    for (var point : toCheck) {
+      var otherId = point.id;
       if (allBubbles.get(otherId) != null && //the bubble hasn't been popped yet
-                    this.id != otherId && //the two bubbles are not the same
-                    this.touches(allBubbles.get(otherId))) { //the bubbles touch
+          this.id != otherId && //the two bubbles are not the same
+          this.touches(allBubbles.get(otherId))) { //the bubbles touch
         allBubbles.get(otherId).pop(allBubbles);
         toBePopped = true;
       }

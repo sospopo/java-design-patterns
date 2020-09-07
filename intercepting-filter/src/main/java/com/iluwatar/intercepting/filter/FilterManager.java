@@ -25,13 +25,12 @@ package com.iluwatar.intercepting.filter;
 
 /**
  * Filter Manager manages the filters and {@link FilterChain}.
- * 
- * @author joshzambales
  *
+ * @author joshzambales
  */
 public class FilterManager {
 
-  private FilterChain filterChain;
+  private final FilterChain filterChain;
 
   public FilterManager() {
     filterChain = new FilterChain();

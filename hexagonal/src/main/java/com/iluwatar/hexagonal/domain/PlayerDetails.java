@@ -24,9 +24,7 @@
 package com.iluwatar.hexagonal.domain;
 
 /**
- * 
  * Immutable value object containing lottery player details.
- *
  */
 public class PlayerDetails {
 
@@ -44,20 +42,26 @@ public class PlayerDetails {
   }
 
   /**
+   * Get email.
+   *
    * @return email
    */
   public String getEmail() {
     return emailAddress;
   }
-  
+
   /**
+   * Get back account number.
+   *
    * @return bank account number
    */
   public String getBankAccount() {
     return bankAccountNumber;
   }
-  
+
   /**
+   * Get phone number.
+   *
    * @return phone number
    */
   public String getPhoneNumber() {
@@ -73,8 +77,8 @@ public class PlayerDetails {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final var prime = 31;
+    var result = 1;
     result = prime * result + ((bankAccountNumber == null) ? 0 : bankAccountNumber.hashCode());
     result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
     result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
@@ -92,7 +96,7 @@ public class PlayerDetails {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    PlayerDetails other = (PlayerDetails) obj;
+    var other = (PlayerDetails) obj;
     if (bankAccountNumber == null) {
       if (other.bankAccountNumber != null) {
         return false;
@@ -108,12 +112,9 @@ public class PlayerDetails {
       return false;
     }
     if (phoneNumber == null) {
-      if (other.phoneNumber != null) {
-        return false;
-      }
-    } else if (!phoneNumber.equals(other.phoneNumber)) {
-      return false;
+      return other.phoneNumber == null;
+    } else {
+      return phoneNumber.equals(other.phoneNumber);
     }
-    return true;
   }
 }

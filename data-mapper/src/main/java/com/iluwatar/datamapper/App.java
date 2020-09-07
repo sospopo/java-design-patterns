@@ -26,8 +26,6 @@ package com.iluwatar.datamapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-
 /**
  * The Data Mapper (DM) is a layer of software that separates the in-memory objects from the
  * database. Its responsibility is to transfer data between the two and also to isolate them from
@@ -35,28 +33,27 @@ import java.util.Optional;
  * present; they need no SQL interface code, and certainly no knowledge of the database schema. (The
  * database schema is always ignorant of the objects that use it.) Since it's a form of Mapper ,
  * Data Mapper itself is even unknown to the domain layer.
- * <p>
- * The below example demonstrates basic CRUD operations: Create, Read, Update, and Delete.
- * 
+ *
+ * <p>The below example demonstrates basic CRUD operations: Create, Read, Update, and Delete.
  */
 public final class App {
 
-  private static Logger log = LoggerFactory.getLogger(App.class);
+  private static final Logger log = LoggerFactory.getLogger(App.class);
   private static final String STUDENT_STRING = "App.main(), student : ";
-  
+
 
   /**
    * Program entry point.
-   * 
+   *
    * @param args command line args.
    */
   public static void main(final String... args) {
 
     /* Create new data mapper for type 'first' */
-    final StudentDataMapper mapper = new StudentDataMapperImpl();
+    final var mapper = new StudentDataMapperImpl();
 
     /* Create new student */
-    Student student = new Student(1, "Adam", 'A');
+    var student = new Student(1, "Adam", 'A');
 
     /* Add student in respectibe store */
     mapper.insert(student);
@@ -64,7 +61,7 @@ public final class App {
     log.debug(STUDENT_STRING + student + ", is inserted");
 
     /* Find this student */
-    final Optional<Student> studentToBeFound = mapper.find(student.getStudentId());
+    final var studentToBeFound = mapper.find(student.getStudentId());
 
     log.debug(STUDENT_STRING + studentToBeFound + ", is searched");
 
@@ -81,5 +78,6 @@ public final class App {
     mapper.delete(student);
   }
 
-  private App() {}
+  private App() {
+  }
 }

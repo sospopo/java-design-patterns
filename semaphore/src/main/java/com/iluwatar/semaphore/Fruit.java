@@ -29,13 +29,13 @@ package com.iluwatar.semaphore;
 public class Fruit {
 
   /**
-   * Enumeration of Fruit Types
+   * Enumeration of Fruit Types.
    */
   public enum FruitType {
     ORANGE, APPLE, LEMON
   }
 
-  private FruitType type;
+  private final FruitType type;
 
   public Fruit(FruitType type) {
     this.type = type;
@@ -46,7 +46,7 @@ public class Fruit {
   }
 
   /**
-   * toString method
+   * toString method.
    */
   public String toString() {
     switch (type) {
